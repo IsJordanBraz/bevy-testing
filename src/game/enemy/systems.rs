@@ -1,4 +1,8 @@
 use bevy::{prelude::*, window::PrimaryWindow};
+use bevy_rapier2d::dynamics::GravityScale;
+use bevy_rapier2d::dynamics::RigidBody;
+use bevy_rapier2d::geometry::ActiveCollisionTypes;
+use bevy_rapier2d::geometry::Collider;
 
 use crate::game::enemy::components::*;
 use crate::game::enemy::resources::*;
@@ -8,6 +12,7 @@ use crate::events::ScoreCollision;
 pub const NUMBER_ENEMIES: usize = 1;
 pub const ENEMY_SIZE: f32 = 60.0;
 pub const ENEMY_SPEED: f32 = 500.0;
+pub const GRAVITY: f32 = 50.0;
 
 pub fn spawn_enemies(
     mut commands: Commands, 
@@ -24,8 +29,13 @@ pub fn spawn_enemies(
                 ..default()
             },
             Enemy {
-                direction: Vec2 { x: (-10.0), y: (0.0) }.normalize()
+                direction: Vec2 { x: (-10.0), y: (0.0) }.normalize(),
+                grounded: false,
             },
+            GravityScale(GRAVITY),
+            ActiveCollisionTypes::DYNAMIC_STATIC,
+            Collider::cuboid(ENEMY_SIZE / 2.0, ENEMY_SIZE / 2.0),
+            RigidBody::Dynamic,
         ));
     }
 }
@@ -45,7 +55,7 @@ pub fn enemy_movement(
 ) {
     for (mut transform, enemy) in enemy_query.iter_mut() {
         let direction = Vec3::new(enemy.direction.x, enemy.direction.y, 0.0);
-        transform.translation += direction * ENEMY_SPEED * time.delta_seconds();
+        transform.translation += direction * ENEMY_SPEED * time.delta_seconds();       
     }
 }
 
@@ -152,8 +162,13 @@ pub fn spawn_enemy_over_time(
                 ..default()
             },
             Enemy {
-                direction: Vec2 { x: (-10.0), y: (0.0) }.normalize()
+                direction: Vec2 { x: (-10.0), y: (0.0) }.normalize(),
+                grounded: false,
             },
+            GravityScale(GRAVITY),
+            ActiveCollisionTypes::DYNAMIC_STATIC,
+            Collider::cuboid(ENEMY_SIZE / 2.0, ENEMY_SIZE / 2.0),
+            RigidBody::Dynamic,
         ));        
     }
 }

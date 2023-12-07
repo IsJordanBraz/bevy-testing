@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
 
 pub mod events;
 mod systems;
@@ -14,13 +15,14 @@ use systems::*;
 
 fn main() {
     App::new()
+        .add_plugins(RapierDebugRenderPlugin::default())
+        .add_plugins(RapierPhysicsPlugin::<()>::default())
         .add_plugins(DefaultPlugins)
         .add_state::<AppState>()        
         .add_event::<ScoreCollision>()
         .add_plugins((GamePlugin, MainMenuPlugin))
-        .add_systems(Startup, spawn_camera)
+        .add_systems(Startup, (spawn_camera, spawn_ground))
         .add_systems(Update, (
-            exit_game,
             transition_to_game_state,
             transition_to_main_menu_state
         ))

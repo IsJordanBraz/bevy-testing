@@ -24,7 +24,6 @@ pub fn build_main_menu(
 ) -> Entity {
     let main_menu_entity = commands.spawn(
         (NodeBundle {
-            // style: Style { display: (), position_type: (), overflow: (), direction: (), left: (), right: (), top: (), bottom: (), width: (), height: (), min_width: (), min_height: (), max_width: (), max_height: (), aspect_ratio: (), align_items: (), justify_items: (), align_self: (), justify_self: (), align_content: (), justify_content: (), margin: (), padding: (), border: (), flex_direction: (), flex_wrap: (), flex_grow: (), flex_shrink: (), flex_basis: (), row_gap: (), column_gap: (), grid_auto_flow: (), grid_template_rows: (), grid_template_columns: (), grid_auto_rows: (), grid_auto_columns: (), grid_row: (), grid_column: () },
             style: Style {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
